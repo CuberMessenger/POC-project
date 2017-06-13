@@ -6,7 +6,7 @@ rate=0;
 
 for test_num=1:100
     % signal generation;如果想要进行100组独立的测试，可以建立100次循环，产生100组独立的数据
-    for j = 2  % bit per symbol: 1. PSK; 2. QPSK; 3.8QAM; 4. 16QAM; 5. 32QAM; 6.64QAM...
+    for j = 1  % bit per symbol: 1. PSK; 2. QPSK; 3.8QAM; 4. 16QAM; 5. 32QAM; 6.64QAM...
     System.BitPerSymbol = j;
     snr = 12:15;  %SNR信噪比的设置，单位dB
         for snrIndex= 1:length(snr)
@@ -76,7 +76,7 @@ for test_num=1:100
 
         end
         
-        if (HOCMC(Rx.Signal)=='QPSK')
+        if (HOCMC(Rx.Signal)=='BPSK')
             rate=rate+1;
         end
     end
