@@ -53,7 +53,6 @@ for test_num=1:100
                 clear tmp tmp2;
             end
             
-            
             Tx.Signal = Tx.DataConstel;
             
             %load the signal to carrier wave, taking phase noise into account
@@ -70,8 +69,8 @@ for test_num=1:100
             %normalization of recieved signal
             CMAOUT=CMAOUT/sqrt(mean(abs(CMAOUT).^2));
             
-            subplot(1,7,snrIndex);
-            plot(Rx.Signal,'.');
+%             subplot(1,7,snrIndex);
+%             plot(Rx.Signal,'.');
         end
         
         if (HOCMC(Rx.Signal)=='BPSK')

@@ -10,7 +10,6 @@ function [ MT ] = HOCMC( S )
     TF2=[34,1,0];
     TF3=[16,0.549,4.257];
 
-
     %Mpq=p-Order Mixed Moment
     M20=HOMM(2,0,S);
     M21=HOMM(2,1,S);
