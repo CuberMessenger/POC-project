@@ -3,3 +3,4 @@ function [ Mpq ] = HOMM( p,q,s )
 Mpq=mean((s.^(p-q)).*(conj(s).^q));
 end
 
+  

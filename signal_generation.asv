@@ -2,11 +2,11 @@ clear all;
 close all;
 clc;
 
-rate=0;
 
-for test_num=1:100
+
+%for abc=1:100
     % signal generation;如果想要进行100组独立的测试，可以建立100次循环，产生100组独立的数据
-    for j = 2  % bit per symbol: 1. PSK; 2. QPSK; 3.8QAM; 4. 16QAM; 5. 32QAM; 6.64QAM...
+    for j = 1:6  % bit per symbol: 1. PSK; 2. QPSK; 3.8QAM; 4. 16QAM; 5. 32QAM; 6.64QAM...
     System.BitPerSymbol = j;
     snr = 12:15;  %SNR信噪比的设置，单位dB
         for snrIndex= 1:length(snr)
@@ -15,7 +15,8 @@ for test_num=1:100
         Tx.Linewidth = 0;%发射信号的载波的线宽，一般与信号的相位噪声有关，大小可自行设置，这里暂时设置为0
         Tx.Carrier = 0;%发射信号的载波频率，可自行设置，这里暂设为0
         M = 2^System.BitPerSymbol;
-
+        cnt=0;
+        Fsum=0;
 
         Tx.DataSymbol = randi([0 M-1],1,10000);%每一次随机产生的数据量，这里暂时设为数据点个数为10000个
 
@@ -76,11 +77,18 @@ for test_num=1:100
 
         end
         
-        if (HOCMC(Rx.Signal)=='QPSK')
-            rate=rate+1;
+        [MT,F1]=HOCMC(Tx.Signal);
+        Fsum=Fsum+F1;
+        if (HOCMC(Rx.Signal)=='BPSK')
+            cnt=cnt+1;
         end
     end
+
+
 end
-rate/test_num*100
+Fsum/100
+cnt
+
+%HOCMC(Rx.Signal)    
 
 
