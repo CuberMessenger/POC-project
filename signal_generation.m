@@ -22,8 +22,8 @@ for test_num=1:100
             Tx.DataSymbol = randi([0 M-1],1,10000);%the number of data for each random process,default value is 10000
             
             %generate different modulation mode:
-            
-            h = modem.qammod('M', M, 'SymbolOrder', 'Gray');
+            h.Type = 'QAM';
+            h.M = 16;
             Tx.DataConstel = myModulate(h,Tx.DataSymbol);
             
             Tx.Signal = Tx.DataConstel;
@@ -46,7 +46,7 @@ for test_num=1:100
 %             plot(Rx.Signal,'.');
         end
         
-        if (HOCMC(Rx.Signal)=='BPSK')
+        if (strcmp(HOCMC(Rx.Signal),[num2str(h.M) h.Type]))
             rate=rate+1;
         end
     end

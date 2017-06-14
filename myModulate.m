@@ -3,9 +3,10 @@ function [ tmp ] = myModulate( h, DataSymbol )
 %   Uses: function modulate
 %
 
-if h.Type == 'QAM Modulator'
-    tmp = modulate(h, DataSymbol);
-else if h.Type == '4ASK'
+if strcmp(h.Type, 'QAM')
+    h1 = modem.qammod('M', h.M, 'SymbolOrder', 'Gray');
+    tmp = modulate(h1, DataSymbol);
+else if strcmp(h.Type, 'ASK') && (h.M == 4)
         tmp2 = DataSymbol;
         tmp = zeros(1, length(DataSymbol));
         
