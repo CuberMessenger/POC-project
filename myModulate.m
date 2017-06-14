@@ -7,6 +7,7 @@ if strcmp(h.Type, 'QAM')
     h1 = modem.qammod('M', str2num(h.M), 'SymbolOrder', 'Gray');
     tmp = modulate(h1, DataSymbol);
 end
+
 if strcmp(h.Type, 'PSK')
     if h.M == 'Q'
         h1.M = 4;
@@ -15,6 +16,11 @@ if strcmp(h.Type, 'PSK')
     if h.M == 'B'
         h1.M = 2;
     end
+    
+    if h.M ~= 'Q' && h.M ~= 'B'
+        h1.M = str2num(h.M);
+    end
+    
     h1 = modem.pskmod('M', h1.M, 'SymbolOrder', 'Gray');
     tmp = modulate(h1, DataSymbol);
 end

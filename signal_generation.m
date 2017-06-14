@@ -21,10 +21,22 @@ for test_num=1:100
             
             Tx.DataSymbol = randi([0 M-1],1,10000);%the number of data for each random process,default value is 10000
             
-            end
+        end
             %generate different modulation mode:
             h.Type = 'QAM';
-            h.M = 16;
+            if strcmp(h.Type, 'PSK')
+                if M == 2
+                    h.M = 'B';
+                end
+                
+                if M == 4
+                    h.M = 'Q';
+                end
+            end
+            
+            if ~strcmp(h.Type, 'PSK')
+                h.M = num2str(M);
+            end
             Tx.DataConstel = myModulate(h,Tx.DataSymbol);
             
             Tx.Signal = Tx.DataConstel;
@@ -49,12 +61,12 @@ for test_num=1:100
             
 %             subplot(1,7,snrIndex);
 %             plot(Rx.Signal,'.');
-        end
-        
-        if (strcmp(HOCMC(Rx.Signal),[num2str(h.M) h.Type]))
-            rate=rate+1;
-        end
     end
+        
+        if (strcmp(HOCMC(Rx.Signal),[h.M h.Type]))
+            rate=rate+1;
+       
+        end
 end
 rate/test_num*100
 
