@@ -7,7 +7,7 @@ rate=0;
 for test_num=1:100
     % signal generation;
     %if you want to conduct 100 seperate tests,set up 100 times iteration
-    for j = 1:1  % bit per symbol: 1. PSK; 2. QPSK; 3.8QAM; 4. 16QAM; 5. 32QAM; 6.64QAM...
+    for j = 4  % bit per symbol: 1. PSK; 2. QPSK; 3.8QAM; 4. 16QAM; 5. 32QAM; 6.64QAM...
         System.BitPerSymbol = j;
         snr = 12:15;  %the position of SNR unit:dB
         for snrIndex= 1:length(snr)
@@ -65,15 +65,19 @@ for test_num=1:100
             
             Rx.Signal = awgn(Tx.Signal,snr(snrIndex),'measured');%recieve signal which was transfered in AWGN channel
             CMAOUT = Rx.Signal;
+
+            CMAOUT = CMAOUT - mean(CMAOUT);
             
             %normalization of recieved signal
             CMAOUT=CMAOUT/sqrt(mean(abs(CMAOUT).^2));
+            
+            
             
 %             subplot(1,7,snrIndex);
 %             plot(Rx.Signal,'.');
         end
         
-        if (HOCMC(Rx.Signal)=='BPSK')
+        if (HOCMC(CMAOUT)=='16QAM')
             rate=rate+1;
         end
     end
