@@ -19,6 +19,7 @@ function [ MT ] = HOCMC( S )
     C80=M80-28*M20*M60-35*(M40^2)+420*(M20^2)*M40-630*(M20^4);
 
     F1=abs(C80)/((abs(C21))^4);
+
     derta1=abs(abs(F1)-TF1);
     index1=find(derta1==min(derta1));
 
