@@ -21,37 +21,11 @@ for test_num=1:100
             
             Tx.DataSymbol = randi([0 M-1],1,10000);%the number of data for each random process,default value is 10000
             
-            %generate different modulation mode: here specifies 2^3(8QAM),to get the best constellation
-            if M ~= 8;
-                h = modem.qammod('M', M, 'SymbolOrder', 'Gray');
-                Tx.DataConstel = modulate(h,Tx.DataSymbol);
-            else
-                tmp = Tx.DataSymbol;
-                tmp2  = zeros(1,length(Tx.DataSymbol));
-                for kk = 1:length(Tx.DataSymbol)
-                    
-                    switch tmp(kk)
-                        case 0
-                            tmp2(kk) = 1 + 1i;
-                        case 1
-                            tmp2(kk) = -1 + 1i;
-                        case 2
-                            tmp2(kk) = -1 - 1i;
-                        case 3
-                            tmp2(kk) = 1 - 1i;
-                        case 4
-                            tmp2(kk) = 1+sqrt(3);
-                        case 5
-                            tmp2(kk) = 0 + 1i .* (1+sqrt(3));
-                        case 6
-                            tmp2(kk) = 0 - 1i .* (1+sqrt(3));
-                        case 7
-                            tmp2(kk) = -1-sqrt(3);
-                    end
-                end
-                Tx.DataConstel = tmp2;
-                clear tmp tmp2;
             end
+            %generate different modulation mode:
+            h.Type = 'QAM';
+            h.M = 16;
+            Tx.DataConstel = myModulate(h,Tx.DataSymbol);
             
             Tx.Signal = Tx.DataConstel;
             
@@ -77,7 +51,7 @@ for test_num=1:100
 %             plot(Rx.Signal,'.');
         end
         
-        if (HOCMC(CMAOUT)=='16QAM')
+        if (strcmp(HOCMC(Rx.Signal),[num2str(h.M) h.Type]))
             rate=rate+1;
         end
     end
